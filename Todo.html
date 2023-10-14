@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Coconut</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+            .container {
+                max-width: 400px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #f4f4f4;
+                border-radius: 5px;
+            }
+            ul {
+                list-style: none;
+                padding: 0;
+            }
+            li {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+                border-bottom: 1px solid #ccc;
+            }
+            button {
+                color: #fff;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            button.add {
+                background-color: #40ff00;
+            }
+            button.delete {
+                background-color: #ff0000;
+            }
+            button.edit {
+                background-color: #d0ff00;
+            }
+            button:hover {
+                background-color: #020202;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <input type="text" id="task" placeholder="Add a new task">
+            <button id="addButton" class="add">Add</button>
+            <select id="category">
+                <option value="">Select Category</option>
+                <option value="Homework">Homework</option>
+                <option value="Housework">Housework</option>
+                <option value="Workout">Workout</option>
+                <option value="Meeting">Meeting</option>
+                <option value="Coding">Coding</option>
+                <option value="Running">Running</option>
+            </select>
+            <ul id="taskList"></ul>
+        </div>
+
+        <script>
+            const taskList = document.getElementById('taskList');
+            const addButton = document.getElementById('addButton');
+            
+            addButton.addEventListener('click', function() {
+                addTask();
+            });
+    
+            function addTask() {
+                const taskInput = document.getElementById('task');
+                const taskText = taskInput.value.trim();
+                const categorySelect = document.getElementById('category');
+                const category = categorySelect.value;
+    
+                if (taskText !== '' && category !== '') {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span>${taskText} (${category})</span>
+                        <button class="edit" onclick="editTask(this)">Edit</button>
+                        <button onclick="deleteTask(this)" class="delete">Delete</button>
+                    `;
+                    taskList.appendChild(li);
+                    taskInput.value = '';
+                    categorySelect.value = '';
+                }
+            }
+    
+            function editTask(button) {
+                const li = button.parentElement;
+                const span = li.querySelector('span');
+                const taskText = prompt('Edit task:', span.textContent);
+    
+                if (taskText !== null) {
+                    span.textContent = taskText;
+                }
+            }
+    
+            function deleteTask(button) {
+                const li = button.parentElement;
+                taskList.removeChild(li);
+            }
+        </script>
+    
+    </body>
+</html>
